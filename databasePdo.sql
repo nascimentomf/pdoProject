@@ -1,0 +1,10 @@
+create database sonpdo;
+use sonpdo;
+create table alunos (id int not null primary key auto_increment, nome varchar(50) not null, nota int not null);
+insert into alunos (nome, nota) values ('Juquinha','3');
+insert into alunos (nome, nota) values ('Joaozinho','8');
+insert into alunos (nome, nota) values ('Zezinho','6');
+insert into alunos (nome, nota) values ('Fulaninho','2');
+insert into alunos (nome, nota) values ('Ledesma','7');
+insert into alunos (nome, nota) values ('Ramom','9');
+insert into alunos (nome, nota) values ('Dante','10'); 
