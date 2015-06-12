@@ -11,7 +11,7 @@
 <tr>
 	<td colspan=4>
 	
-	<form action="index.php" method="get">
+	<form action="index.php" method="post">
 		<b>Digite o nome do aluno</b>: <input type="text" name="search" />
 		<input type="hidden" name="acao" value="pesquisar" />
 		<input type="submit" value="Buscar" /> 
@@ -62,7 +62,7 @@
 <h3>Tres maiores notas</h3>
 <?php
     //Listagem das tres melhores notas
-    foreach ($servicedb->listar('nota desc limit 3') as $resultado){
+    foreach ($maiores_registros as $resultado){
 	   echo 'Nome.: '.$resultado['nome'].' -- Nota.: '.$resultado['nota'].'</br>';
     }
 }

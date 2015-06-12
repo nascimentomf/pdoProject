@@ -3,6 +3,7 @@
 require_once 'Conexao.php';
 require_once 'Alunos.php';
 require_once 'ServiceDb.php';
+
 //Teste de conexao
 try{
 	$conexao = new Conexao();
@@ -11,26 +12,21 @@ try{
 }
 
 //atribuicoes de variaveis
-// acao
-if(!isset($_REQUEST['acao'])){
-	$acao = 'listar'; 
+if($_SERVER['REQUEST_METHOD'] == 'GET'){
+	//acao
+	$acao = filter_input(INPUT_GET, 'acao');
+	
+	//id
+	$id = filter_input(INPUT_GET, 'id');
 }else{
-	$acao = $_REQUEST['acao'];
-}
-
-
-// id
-if(!isset($_REQUEST['id'])){
-	$id = false; 
-}else{
-	$id = $_REQUEST['id'];
-}
-
-// id
-if(!isset($_GET['search'])){
-	$search = false; 
-}else{
-	$search = $_GET['search'];
+	//acao
+	$acao = filter_input(INPUT_POST, 'acao');
+	
+	//id
+	$id = filter_input(INPUT_POST, 'id');
+	
+	//search
+	$search = filter_input(INPUT_POST, 'search');
 }
 
 //Entidade Aluno
@@ -41,6 +37,7 @@ $servicedb = new ServiceDB($conexao, $alunos);
 
 // Acoes
 if($acao == 'alterar'){
+	//busca no banco de dados os dados do alunos
 	$registros = $servicedb->find((int)$id);
 	$nome = $registros['nome'];
 	$nota = $registros['nota'];
@@ -78,6 +75,7 @@ if($acao=='pesquisar' && $search != ''){
 	$registros = $servicedb->find($search);
 }else{
 	$registros = $servicedb->listar('nome');
+	$maiores_registros = $servicedb->listar('nota desc limit 3');
 }
 
 
