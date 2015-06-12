@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<title>Gerenciamento de Alunos</title>
+</head>
+<body>
+<h3>Gerenciamento de alunos</h3> 
+
+<?php if($acao != 'alterar' && $acao != 'inserir'){ ?>
+<table border="solid 1px">
+<tr>
+	<td colspan=4>
+	
+	<form action="index.php" method="get">
+		<b>Digite o nome do aluno</b>: <input type="text" name="search" />
+		<input type="hidden" name="acao" value="pesquisar" />
+		<input type="submit" value="Buscar" /> 
+	</form>
+	
+	</td>
+	
+</tr>
+<tr>
+	<td align="center"><b>Nome</b></td>
+	<td align="center"><b>Nota</b></td>
+	<td colspan="2" align="center"><b>Acoes</b></td>
+</tr>
+	<?php
+    //Listagem de todos os alunos
+    if($acao != 'pesquisar' or $search == ''){
+    	foreach ($registros as $resultado){
+    	?>
+		<tr>
+			<td><?php echo $resultado['nome']; ?></td>
+			<td align="center"><?php echo $resultado['nota']; ?></td>
+			<td align="center"><a href="?id=<?php echo $resultado['id']; ?>&acao=alterar">Alterar</a></td>
+			<td align="center"><a href="?id=<?php echo $resultado['id']; ?>&acao=excluir">Excluir</a></td>
+		</tr>
+	   	<?php
+	    }
+	}else{
+    ?>
+        <tr><?php if(empty($registros['nome'])){ ?>
+        
+        		<td colspan="4">Nao foram encontados registros!</td>
+            <?php }else{ ?>
+			<td><?php echo $registros['nome']; ?></td>
+			<td align="center"><?php echo $registros['nota']; ?></td>
+			<td align="center"><a href="?id=<?php echo $registros['id']; ?>&acao=alterar">Alterar</a></td>
+			<td align="center"><a href="?id=<?php echo $registros['id']; ?>&acao=excluir">Excluir</a></td>
+			
+			<?php } ?>
+        </tr>
+    
+    <?php    
+    }
+	?>
+	<tr>
+	  <td colspan="4" align="center">	<a href="?acao=inserir">Novo registro</a></td>
+	</tr>
+</table>
+<h3>Tres maiores notas</h3>
+<?php
+    //Listagem das tres melhores notas
+    foreach ($servicedb->listar('nota desc limit 3') as $resultado){
+	   echo 'Nome.: '.$resultado['nome'].' -- Nota.: '.$resultado['nota'].'</br>';
+    }
+}
+if($acao == 'alterar' or $acao == 'inserir'){
+?>
+
+
+<h3>Manuten&ccedil;ao de Alunos - <?php echo ucfirst($acao); ?></h3>
+<form action="index.php" method="post">
+	Nome.: <input type="text" name="nome_<?php echo $acao; ?>" value="<?php echo $nome; ?>" />
+	Nota.: <input type="text" name="nota_<?php echo $acao; ?>" value="<?php echo $nota; ?>" />
+	<input type="hidden" name = "acao" value="gravar_<?php echo $acao; ?>" />
+	<input type="hidden" name = "id" value="<?php echo $id; ?>" />
+	<input type="submit" value="Gravar" />
+</form>
+
+<?php } ?>
+</body>
+</html>

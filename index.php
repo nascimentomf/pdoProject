@@ -12,17 +12,25 @@ try{
 
 //atribuicoes de variaveis
 // acao
-if(!isset($_GET['acao'])){
+if(!isset($_REQUEST['acao'])){
 	$acao = 'listar'; 
 }else{
-	$acao = $_GET['acao'];
+	$acao = $_REQUEST['acao'];
+}
+
+
+// id
+if(!isset($_REQUEST['id'])){
+	$id = false; 
+}else{
+	$id = $_REQUEST['id'];
 }
 
 // id
-if(!isset($_GET['id'])){
-	$id = false; 
+if(!isset($_GET['search'])){
+	$search = false; 
 }else{
-	$id = $_GET['id'];
+	$search = $_GET['search'];
 }
 
 //Entidade Aluno
@@ -32,45 +40,48 @@ $alunos = new Alunos();
 $servicedb = new ServiceDB($conexao, $alunos);
 
 // Acoes
-if($acao == 'inserir'){
+if($acao == 'alterar'){
+	$registros = $servicedb->find((int)$id);
+	$nome = $registros['nome'];
+	$nota = $registros['nota'];
+
+}
+if($acao == 'gravar_inserir'){
 	//Inserir novo registro
-	$alunos->setNome('Caetano')
-			->setNota(5)
+	$alunos->setNome($_POST['nome_inserir'])
+			->setNota($_POST['nota_inserir'])
 	;
 	
 	//Insere no banco
-	$servicedb->inserir();	
+	$servicedb->inserir();
+	$registros = $servicedb->listar('nome');	
 }
+if($acao == 'gravar_alterar'){
 
-if($acao == 'excluir' && $id){
-	//deletar um registro
-	$servicedb->deletar($id);
-}
-
-if($acao == 'alterar' && $id){
 	//Alterar cadastro 
 	$alunos->setId($id);
 	
-	$alunos->setNome('Moises')
-		->setNota(7)
+	$alunos->setNome($_POST['nome_alterar'])
+		->setNota($_POST['nota_alterar'])
 	;
-
+     
 	//Altera no banco
 	$servicedb->alterar();
+	$registros = $servicedb->listar('nome');
+}
+if($acao == 'excluir' && $id){
+	//deletar um registro
+	$servicedb->deletar($id);
+	$registros = $servicedb->listar('nome');
+}
+if($acao=='pesquisar' && $search != ''){
+	$registros = $servicedb->find($search);
+}else{
+	$registros = $servicedb->listar('nome');
 }
 
-//Listagem de todos os alunos
-echo '<h3>Todos os alunos cadastrados | <a href="?acao=inserir">Cadastrar aluno</a></h3>';
-foreach ($servicedb->listar('nome') as $resultado){
-	echo 'Nome.: '.$resultado['nome'].' -- Nota.: '.$resultado['nota'].'-- <a href="?id='.$resultado['id'].'&acao=alterar">Alterar</a> | <a href="?id='.$resultado['id'].'&acao=excluir">Excluir</a></br>';
-}
 
-//Listagem das tres melhores notas
-echo '<h3>Tres maiores notas</h3>';
-foreach ($servicedb->listar('nota desc limit 3') as $resultado){
-	echo 'Nome.: '.$resultado['nome'].' -- Nota.: '.$resultado['nota'].'</br>';
-}
-
+include 'alunos.html';
 
 
 /*//Teste classe aluno

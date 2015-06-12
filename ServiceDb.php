@@ -8,6 +8,22 @@ class ServiceDB{
 		$this->db = $db;
 		$this->entidade = $entidade;
 	}
+	
+	public function find($parametro){
+		    if(!is_int($parametro)){
+		    	$sql = "select * from {$this->entidade->getTable()} where nome like :id '%'";
+		    }else{
+		    	$sql = "select * from {$this->entidade->getTable()} where id = :id";
+		    }
+			
+			$stmt = $this->db->getDb()->prepare($sql);
+			$stmt->bindValue(":id", $parametro);
+			$stmt->execute();
+			return $stmt->fetch(\PDO::FETCH_ASSOC);
+
+	
+		
+	}
 	//listagem
 	public function listar($ordem=null){
 		if($ordem){
