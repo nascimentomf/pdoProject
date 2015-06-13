@@ -1,6 +1,6 @@
 <?php
 //Implementar a classe Alunos
-class Alunos{
+class Alunos implements EntidadeInterface{
 	private $table="alunos";
 	private $id;
 	private $nome;

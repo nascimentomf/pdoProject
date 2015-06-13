@@ -1,0 +1,16 @@
+<?php if($_SESSION['id_usuario'] and $_SESSION['login_usuario']){ ?>
+<p>Bem vindo, <b><?php echo $_SESSION['login_usuario'];?></b></p>
+
+<?php } else { ?>
+
+<p>
+Bem vindo ao sistema. Por favor fa&ccedil;a o login!
+<form action="index.php" method="post">
+  Login.: <input type="text" name="login" />
+  Senha.: <input type="password" name="senha" />
+  <input type="hidden" name="acao" value="login"/>
+  <input type="submit" value="Entar"/>
+</form>
+</p>
+<p><?php echo $display_error; ?></p>
+<?php } ?>

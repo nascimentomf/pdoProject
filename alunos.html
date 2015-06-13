@@ -1,19 +1,12 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<title>Gerenciamento de Alunos</title>
-</head>
-<body>
-<h3>Gerenciamento de alunos</h3> 
-
 <?php if($acao != 'alterar' && $acao != 'inserir'){ ?>
 <table border="solid 1px">
 <tr>
 	<td colspan=4>
 	
-	<form action="index.php" method="post">
+	<form action="index.php" method="get">
 		<b>Digite o nome do aluno</b>: <input type="text" name="search" />
 		<input type="hidden" name="acao" value="pesquisar" />
+		<input type="hidden" name="pg" value="alunos" />
 		<input type="submit" value="Buscar" /> 
 	</form>
 	
@@ -33,8 +26,8 @@
 		<tr>
 			<td><?php echo $resultado['nome']; ?></td>
 			<td align="center"><?php echo $resultado['nota']; ?></td>
-			<td align="center"><a href="?id=<?php echo $resultado['id']; ?>&acao=alterar">Alterar</a></td>
-			<td align="center"><a href="?id=<?php echo $resultado['id']; ?>&acao=excluir">Excluir</a></td>
+			<td align="center"><a href="?pg=alunos&id=<?php echo $resultado['id']; ?>&acao=alterar">Alterar</a></td>
+			<td align="center"><a href="?pg=alunos&id=<?php echo $resultado['id']; ?>&acao=excluir">Excluir</a></td>
 		</tr>
 	   	<?php
 	    }
@@ -46,8 +39,8 @@
             <?php }else{ ?>
 			<td><?php echo $registros['nome']; ?></td>
 			<td align="center"><?php echo $registros['nota']; ?></td>
-			<td align="center"><a href="?id=<?php echo $registros['id']; ?>&acao=alterar">Alterar</a></td>
-			<td align="center"><a href="?id=<?php echo $registros['id']; ?>&acao=excluir">Excluir</a></td>
+			<td align="center"><a href="?pg=alunos&id=<?php echo $registros['id']; ?>&acao=alterar">Alterar</a></td>
+			<td align="center"><a href="?pg=alunos&id=<?php echo $registros['id']; ?>&acao=excluir">Excluir</a></td>
 			
 			<?php } ?>
         </tr>
@@ -56,7 +49,7 @@
     }
 	?>
 	<tr>
-	  <td colspan="4" align="center">	<a href="?acao=inserir">Novo registro</a></td>
+	  <td colspan="4" align="center">	<a href="?pg=alunos&acao=inserir">Novo registro</a></td>
 	</tr>
 </table>
 <h3>Tres maiores notas</h3>
@@ -76,9 +69,8 @@ if($acao == 'alterar' or $acao == 'inserir'){
 	Nota.: <input type="text" name="nota_<?php echo $acao; ?>" value="<?php echo $nota; ?>" />
 	<input type="hidden" name = "acao" value="gravar_<?php echo $acao; ?>" />
 	<input type="hidden" name = "id" value="<?php echo $id; ?>" />
+	<input type="hidden" name="pg" value="alunos" />
 	<input type="submit" value="Gravar" />
 </form>
 
 <?php } ?>
-</body>
-</html>

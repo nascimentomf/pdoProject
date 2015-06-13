@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<title>Gerenciamento de Alunos</title>
+</head>
+<body>
+<h3>Gerenciamento de alunos</h3> 
+
+	
+	<?php if($_SESSION['id_usuario']){ ?>
+<ul>	
+	<li><a href="index.php">Inicio</a></li>
+	<li><a href="?pg=alunos">Alunos</a></li>
+	<li><a href="?pg=usuarios">Usuarios</a></li>
+	<li>(<?php echo $_SESSION['login_usuario'];?>) | <a href="?acao=logout">Sair</a></li>
+</ul>	
+	<?php } ?>
+
+
+
+<?php 
+
+include strtolower($render).'.html';
+?>
+
+</body>
+</html>

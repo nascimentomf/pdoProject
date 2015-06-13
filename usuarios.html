@@ -1,0 +1,71 @@
+<?php if($acao != 'alterar' && $acao != 'inserir'){ ?>
+<table border="solid 1px">
+<tr>
+	<td colspan=3>
+	
+	<form action="index.php" method="get">
+		<b>Digite o nome do usuario</b>: <input type="text" name="search" />
+		<input type="hidden" name="acao" value="pesquisar" />
+		<input type="hidden" name="pg" value="usuarios" />		
+		<input type="submit" value="Buscar" /> 
+	</form>
+	
+	</td>
+	
+</tr>
+<tr>
+	<td align="center"><b>Login</b></td>
+	<td colspan="2" align="center"><b>Acoes</b></td>
+</tr>
+	<?php
+    //Listagem de todos os usuarios
+    if($acao != 'pesquisar' or $search == ''){
+    	foreach ($registros as $resultado){
+    	?>
+		<tr>
+			<td><?php echo $resultado['login']; ?></td>
+
+			<td align="center"><a href="?pg=usuarios&id=<?php echo $resultado['id']; ?>&acao=alterar">Alterar</a></td>
+			<td align="center"><a href="?pg=usuarios&id=<?php echo $resultado['id']; ?>&acao=excluir">Excluir</a></td>
+		</tr>
+	   	<?php
+	    }
+	}else{
+    ?>
+        <tr><?php if(empty($registros['login'])){ ?>
+        
+        		<td colspan="3">Nao foram encontados registros!</td>
+            <?php }else{ ?>
+			<td><?php echo $registros['login']; ?></td>
+
+			<td align="center"><a href="?pg=usuarios&id=<?php echo $registros['id']; ?>&acao=alterar">Alterar</a></td>
+			<td align="center"><a href="?pg=usuarios&id=<?php echo $registros['id']; ?>&acao=excluir">Excluir</a></td>
+			
+			<?php } ?>
+        </tr>
+    
+    <?php    
+    }
+	?>
+	<tr>
+	  <td colspan="3" align="center">	<a href="?pg=usuarios&acao=inserir">Novo registro</a></td>
+	</tr>
+</table>
+<?php
+
+}
+if($acao == 'alterar' or $acao == 'inserir'){
+?>
+
+
+<h3>Manuten&ccedil;ao de Usuarios - <?php echo ucfirst($acao); ?></h3>
+<form action="index.php" method="post">
+	Nome.: <input type="text" name="login_<?php echo $acao; ?>" value="<?php echo $login; ?>" />
+	Senha.: <input type="password" name="senha_<?php echo $acao; ?>" />
+	<input type="hidden" name = "acao" value="gravar_<?php echo $acao; ?>" />
+	<input type="hidden" name="pg" value="usuarios" />	
+	<input type="hidden" name = "id" value="<?php echo $id; ?>" />
+	<input type="submit" value="Gravar" />
+</form>
+
+<?php } ?>
