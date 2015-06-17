@@ -1,6 +1,7 @@
 create database sonpdo;
 use sonpdo;
 create table alunos (id int not null primary key auto_increment, nome varchar(50) not null, nota int not null);
+create table usuarios (id int not null primary key auto_increment, login varchar(50) not null, senha varchar(40) not null);
 insert into alunos (nome, nota) values ('Juquinha',3);
 insert into alunos (nome, nota) values ('Joaozinho',8);
 insert into alunos (nome, nota) values ('Zezinho',6);
@@ -21,4 +22,5 @@ insert into alunos (nome, nota) values ('Beltraninho',1);
 insert into alunos (nome, nota) values ('Gago',5);
 insert into alunos (nome, nota) values ('Terezinha',7);
 insert into alunos (nome, nota) values ('Gordo',9);
-
+insert into usuarios (login, senha) values ('admin',sha1('admin'));
+insert into usuarios (login, senha) values ('usuario',sha1('1234'));
